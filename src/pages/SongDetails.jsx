@@ -1,19 +1,27 @@
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { DetailsHeader, Error, Loader, RelatedSongSs } from "../components";
+import { DetailsHeader, Error, Loader, RelatedSongs } from "../components";
 import { setActiveSong, playPause } from "../redux/features/playerSlice";
+import { useGetSongDetailsQuery } from "../redux/services/shazamCore";
 
 const SongDetails = () => {
   const dispatch = useDispatch();
   const { songid } = useParams();
-  const { setActiveSong, isPlaying } = useSelector((state) => state.player);
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+  const { data: songData, isFetching: isFetchingSongDetails } =
+    useGetSongDetailsQuery({ songid });
   console.log(songid);
   return (
     <div className="flex flex-col">
       {/* <DetailsHeader artistsId={artistsId} songData={songData}/> */}
 
       <div className="mb-10">
-        <h2 className="text-white text-3xl font-bold">Lyrics:</h2>
+        <h2 className="text-white text-3xl font-bold"> Lyrics: </h2>
+        <div className="mt-5">
+            {songData?.sections[1].type === 'LYRICS' ? songData?.sections[1].text.map((line, i) => (
+                <p className="text-gray-400 my-1 text-base">{line}</p>
+            )):<p className="text-gray-400 my-1 text-base">Sorry no lyrics found!</p>}
+        </div>
       </div>
     </div>
   );
