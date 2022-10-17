@@ -11,7 +11,7 @@ const SongDetails = () => {
   // const dispatch = useDispatch();
   const { songid } = useParams();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
-  const { data: songData, isFetching: isFetchingSongDetails } =
+  const { data: songData, isFetching: isFetchingSongDetails }=
     useGetSongDetailsQuery({ songid });
   const {
     data,
@@ -29,8 +29,7 @@ const SongDetails = () => {
     dispatch(playPause(true));
   };
 
-  if (isFetchingSongDetails || isFetchingRelatedSongs)
-    return <Loader title="Searching song details" />;
+  if (isFetchingSongDetails || isFetchingRelatedSongs) return <Loader title="Searching song details" />;
 
   if (error) return <Error />;
 
