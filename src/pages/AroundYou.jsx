@@ -1,5 +1,26 @@
-import React from 'react';
 
-const CountryTracks = () => <div>CountryTracks</div>;
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-export default CountryTracks;
+import { Error, Loader, SongCard } from "../components";
+
+const AroundYou = () => {
+  const [country, setCountry] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { activeSong, isPlaying } = useSelector((state) => state.player);
+
+  console.log(country);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://geo.ipify.org/api/v2/country?apiKey=at_l0WPou0a5B5fnbzneayHt1LfNVM8Z"
+      )
+      .then((res) => setCountry(res?.data?.location?.country))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  }, [country]);
+  return <div></div>;
+};
+export default AroundYou;
